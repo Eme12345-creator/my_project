@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BH Reserve — Pagadian City</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a3a2a;
+    --accent: #d4a843;
+    --accent2: #e8c96a;
+    --bg: #f5f0e8;
+    --bg2: #ede8dc;
+    --white: #fdfaf4;
+    --text: #1a1a1a;
+    --muted: #6b6b5a;
+    --card: #ffffff;
+    --danger: #c0392b;
+    --success: #27ae60;
+    --border: #d4cfc0;
+    --sidebar-w: 260px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== AUTH SCREENS ===== */
+  .auth-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary) 0%, #2d5a40 50%, #1a3a2a 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .auth-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .auth-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 48px 44px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.5s ease;
+  }
+  @keyframes slideUp {
+    from { opacity:0; transform: translateY(30px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+  .auth-logo {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .auth-logo .logo-icon {
+    width: 64px; height: 64px;
+    background: var(--primary);
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+  .auth-logo h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--primary);
+    font-weight: 900;
+  }
+  .auth-logo p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .auth-tabs {
+    display: flex;
+    gap: 0;
+    background: var(--bg2);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 28px;
+  }
+  .auth-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+  }
+  .auth-tab.active { background: var(--white); color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 7px;
+    letter-spacing: 0.3px;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(212,168,67,0.15);
+    background: var(--white);
+  }
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover { background: #2d5a40; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,58,42,0.3); }
+  .btn-accent {
+    padding: 10px 22px;
+    background: var(--accent);
+    color: var(--primary);
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-accent:hover { background: var(--accent2); transform: translateY(-1px); }
+  .btn-outline {
+    padding: 10px 22px;
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { background: var(--primary); color: var(--white); }
+  .hidden { display: none !important; }
+
+  /* ===== MAIN APP LAYOUT ===== */
+  .app { display: flex; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--primary);
+    color: var(--white);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+  }
+  .sidebar-logo {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sidebar-logo h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1.2;
+  }
+  .sidebar-logo p { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .sidebar-user {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+  }
+  .sidebar-avatar {
+    width: 38px; height: 38px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+  .sidebar-user-info h4 { font-size: 13px; font-weight: 600; }
+  .sidebar-user-info p { font-size: 11px; color: rgba(255,255,255,0.5); }
+  .sidebar-section { padding: 20px 24px 8px; }
+  .sidebar-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 2px;
+    text-decoration: none;
+  }
+  .sidebar-item .icon { font-size: 16px; width: 20px; text-align: center; }
+  .sidebar-item:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+  .sidebar-item.active { background: var(--accent); color: var(--primary); font-weight: 700; }
+  .sidebar-item.active .icon { color: var(--primary); }
+  .sidebar-bottom {
+    margin-top: auto;
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .sidebar-logout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .sidebar-logout:hover { color: #ff6b6b; background: rgba(255,107,107,0.1); }
+
+  /* MAIN CONTENT */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    min-height: 100vh;
+    background: var(--bg);
+  }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--white);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .topbar h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .topbar-right { display: flex; align-items: center; gap: 16px; }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    gap: 8px;
+    transition: border-color 0.2s;
+  }
+  .search-bar:focus-within { border-color: var(--accent); }
+  .search-bar input {
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    width: 180px;
+    outline: none;
+  }
+  .notif-btn {
+    width: 38px; height: 38px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .notif-btn:hover { border-color: var(--accent); background: var(--bg2); }
+  .notif-dot {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 8px; height: 8px;
+    background: var(--danger);
+    border-radius: 50%;
+    border: 1.5px solid var(--white);
+  }
+
+  /* PAGES */
+  .page { display: none; padding: 32px; }
+  .page.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  /* HERO BANNER */
+  .hero-banner {
+    background: linear-gradient(135deg, var(--primary) 0%, #2d5a40 100%);
+    border-radius: 20px;
+    padding: 40px 44px;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .hero-banner::after {
+    content: '🏘️';
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 100px;
+    opacity: 0.2;
+  }
+  .hero-banner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .hero-banner p { font-size: 15px; opacity: 0.8; max-width: 500px; }
+  .hero-banner .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  /* STATS */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .stat-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 20px;
+    border: 1.5px solid var(--border);
+    transition: all 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .stat-icon { font-size: 24px; margin-bottom: 10px; }
+  .stat-value { font-size: 28px; font-weight: 700; color: var(--primary); font-family: 'Playfair Display', serif; }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; font-weight: 500; }
+
+  /* SECTION HEADERS */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .section-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .section-header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  /* BARANGAY FILTER */
+  .barangay-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .bgy-chip {
+    padding: 7px 16px;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+  }
+  .bgy-chip:hover, .bgy-chip.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+  }
+  .bgy-chip.active { box-shadow: 0 4px 12px rgba(26,58,42,0.25); }
+
+  /* BH CARDS GRID */
+  .bh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .bh-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1.5px solid var(--border);
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .bh-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); border-color: var(--accent); }
+  .bh-img {
+    height: 160px;
+    background: linear-gradient(135deg, var(--primary), #2d5a40);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    overflow: hidden;
+  }
+  .bh-img-1 { background: linear-gradient(135deg, #1a3a2a, #4a7c59); }
+  .bh-img-2 { background: linear-gradient(135deg, #2c3e50, #3d6b5c); }
+  .bh-img-3 { background: linear-gradient(135deg, #4a2c2a, #8b4513); }
+  .bh-img-4 { background: linear-gradient(135deg, #1a2c4a, #2d4a8a); }
+  .bh-img-5 { background: linear-gradient(135deg, #2a1a4a, #5a3a8a); }
+  .bh-img-6 { background: linear-gradient(135deg, #1a3a30, #2d7a5a); }
+  .bh-img-7 { background: linear-gradient(135deg, #3a2a1a, #8a6030); }
+  .bh-img-8 { background: linear-gradient(135deg, #1a3a2a, #4a8a5a); }
+  .bh-img-9 { background: linear-gradient(135deg, #2a1a3a, #6a3a8a); }
+  .bh-img-10 { background: linear-gradient(135deg, #3a1a1a, #8a3a3a); }
+  .bh-img-11 { background: linear-gradient(135deg, #1a2a3a, #3a6a8a); }
+  .bh-img-12 { background: linear-gradient(135deg, #2a3a1a, #5a8a3a); }
+  .bh-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--accent);
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .bh-available {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--success);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .bh-body { padding: 18px; }
+  .bh-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+  .bh-location { font-size: 12px; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 4px; }
+  .bh-owner { font-size: 13px; color: var(--text); margin-bottom: 12px; }
+  .bh-owner span { font-weight: 600; }
+  .bh-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .bh-tag {
+    padding: 3px 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .bh-footer { display: flex; align-items: center; justify-content: space-between; }
+  .bh-price { font-size: 16px; font-weight: 700; color: var(--primary); }
+  .bh-price span { font-size: 11px; font-weight: 400; color: var(--muted); }
+  .btn-visit {
+    padding: 8px 18px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-visit:hover { background: var(--accent); color: var(--primary); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease;
+  }
+  .modal {
+    background: var(--white);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 780px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+  }
+  .modal-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: linear-gradient(135deg, var(--primary), #2d5a40);
+    border-radius: 20px 20px 0 0;
+    color: var(--white);
+  }
+  .modal-header h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; }
+  .modal-header p { font-size: 13px; opacity: 0.7; margin-top: 3px; }
+  .modal-close {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.25); }
+  .modal-body { padding: 28px 32px; }
+  .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .room-card {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    transition: all 0.2s;
+  }
+  .room-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .room-card.occupied { opacity: 0.6; }
+  .room-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+  .room-type { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 12px; }
+  .room-amenities { margin-bottom: 14px; }
+  .amenity {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .amenity .dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; flex-shrink: 0; }
+  .amenity .dot.x { background: #ccc; }
+  .room-price { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+  .room-price span { font-size: 11px; font-weight: 400; color: var(--muted); }
+  .room-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .room-status.available { background: #e8f5e9; color: var(--success); }
+  .room-status.occupied { background: #ffeaea; color: var(--danger); }
+  .btn-reserve {
+    width: 100%;
+    padding: 10px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-reserve:hover { background: var(--accent); color: var(--primary); }
+  .btn-reserve:disabled { background: #ccc; color: #999; cursor: not-allowed; }
+
+  /* RESERVATION FORM MODAL */
+  .form-modal {
+    max-width: 580px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 20px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+  }
+  .reservation-summary {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 8px;
+  }
+  .res-sum-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+  .res-sum-row .label { color: var(--muted); }
+  .res-sum-row .value { font-weight: 600; color: var(--primary); }
+
+  /* MY RESERVATIONS PAGE */
+  .reservations-list { display: flex; flex-direction: column; gap: 14px; }
+  .reservation-item {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.2s;
+  }
+  .reservation-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+  .res-icon { font-size: 32px; flex-shrink: 0; }
+  .res-info { flex: 1; }
+  .res-info h4 { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--primary); }
+  .res-info p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .res-tags { display: flex; gap: 8px; margin-top: 8px; }
+  .res-tag {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .res-tag.pending { background: #fff3cd; color: #856404; }
+  .res-tag.confirmed { background: #e8f5e9; color: var(--success); }
+  .res-tag.cancelled { background: #ffeaea; color: var(--danger); }
+  .res-price { text-align: right; }
+  .res-price .amount { font-size: 20px; font-weight: 700; color: var(--primary); font-family: 'Playfair Display', serif; }
+  .res-price .per { font-size: 11px; color: var(--muted); }
+
+  /* PROFILE PAGE */
+  .profile-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .profile-cover {
+    height: 120px;
+    background: linear-gradient(135deg, var(--primary), #2d5a40);
+  }
+  .profile-body { padding: 0 28px 28px; position: relative; }
+  .profile-avatar {
+    width: 80px; height: 80px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 4px solid var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: -40px;
+    margin-bottom: 12px;
+  }
+  .profile-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--primary); }
+  .profile-email { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+  .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* SUCCESS SCREEN */
+  .success-screen {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .success-icon { font-size: 64px; margin-bottom: 16px; }
+  .success-screen h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--primary); margin-bottom: 8px; }
+  .success-screen p { font-size: 14px; color: var(--muted); max-width: 320px; margin: 0 auto 24px; }
+
+  /* ABOUT PAGE */
+  .about-header {
+    background: linear-gradient(135deg, var(--primary), #2d5a40);
+    border-radius: 16px;
+    padding: 40px;
+    color: white;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .about-header h2 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; margin-bottom: 8px; }
+  .about-header p { opacity: 0.8; max-width: 500px; margin: 0 auto; }
+  .about-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .about-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+  }
+  .about-card .icon { font-size: 36px; margin-bottom: 12px; }
+  .about-card h4 { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--primary); margin-bottom: 6px; }
+  .about-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .form-row { grid-template-columns: 1fr; }
+    .page { padding: 20px; }
+    .topbar { padding: 12px 16px; }
+    .hero-banner { padding: 28px 24px; }
+    .hero-banner::after { display: none; }
+    .bh-grid { grid-template-columns: 1fr; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- ========== AUTH SCREENS ========== -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-icon">🏠</div>
+      <h1>BH Reserve</h1>
+      <p>Boarding House Reservation — Pagadian City</p>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Login</button>
+      <button class="auth-tab" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" placeholder="juan@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••">
+      </div>
+      <button class="btn-primary" onclick="handleLogin()" style="margin-top:8px">Sign In</button>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerForm" class="hidden">
+      <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="regFname" placeholder="Juan">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="regLname" placeholder="dela Cruz">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="regEmail" placeholder="juan@email.com">
+      </div>
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="tel" id="regPhone" placeholder="09XX XXX XXXX">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="regPassword" placeholder="••••••••">
+      </div>
+      <button class="btn-primary" onclick="handleRegister()" style="margin-top:8px">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MAIN APP ========== -->
+<div id="mainApp" class="app hidden">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h2>🏠 BH Reserve</h2>
+      <p>Pagadian City</p>
+    </div>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar" id="sidebarAvatar">J</div>
+      <div class="sidebar-user-info">
+        <h4 id="sidebarName">Juan dela Cruz</h4>
+        <p id="sidebarEmail">juan@email.com</p>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Navigation</div>
+      <a class="sidebar-item active" onclick="showPage('home')">
+        <span class="icon">🏠</span> Home
+      </a>
+      <a class="sidebar-item" onclick="showPage('browse')">
+        <span class="icon">🔍</span> Browse BH
+      </a>
+      <a class="sidebar-item" onclick="showPage('reservations')">
+        <span class="icon">📋</span> My Reservations
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Barangays</div>
+      <a class="sidebar-item" onclick="filterBrgy('TIGUMA'); showPage('browse')">
+        <span class="icon">📍</span> Tiguma
+      </a>
+      <a class="sidebar-item" onclick="filterBrgy('TUBURAN'); showPage('browse')">
+        <span class="icon">📍</span> Tuburan
+      </a>
+      <a class="sidebar-item" onclick="filterBrgy('LUMBIA'); showPage('browse')">
+        <span class="icon">📍</span> Lumbia
+      </a>
+      <a class="sidebar-item" onclick="filterBrgy('SAN JOSE'); showPage('browse')">
+        <span class="icon">📍</span> San Jose
+      </a>
+      <a class="sidebar-item" onclick="filterBrgy('BALANGASAN'); showPage('browse')">
+        <span class="icon">📍</span> Balangasan
+      </a>
+      <a class="sidebar-item" onclick="filterBrgy('STA. MARIA'); showPage('browse')">
+        <span class="icon">📍</span> Sta. Maria
+      </a>
+      <a class="sidebar-item" onclick="filterBrgy('SAN FRANCISCO'); showPage('browse')">
+        <span class="icon">📍</span> San Francisco
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Account</div>
+      <a class="sidebar-item" onclick="showPage('profile')">
+        <span class="icon">👤</span> My Profile
+      </a>
+      <a class="sidebar-item" onclick="showPage('about')">
+        <span class="icon">ℹ️</span> About
+      </a>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="sidebar-logout" onclick="handleLogout()">
+        <span>🚪</span> Sign Out
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h3 id="pageTitle">Home</h3>
+      <div class="topbar-right">
+        <div class="search-bar">
+          <span>🔍</span>
+          <input type="text" placeholder="Search boarding houses..." oninput="handleSearch(this.value)">
+        </div>
+        <div class="notif-btn">
+          🔔
+          <div class="notif-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div class="page active" id="page-home">
+      <div class="hero-banner">
+        <div class="badge">✨ Pagadian City's #1 BH Finder</div>
+        <h2>Find Your Perfect<br>Home Away From Home</h2>
+        <p>Browse verified boarding houses across all barangays in Pagadian City. Reserve your room online — quick, easy, hassle-free.</p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon">🏘️</div>
+          <div class="stat-value">12</div>
+          <div class="stat-label">Boarding Houses</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🛏️</div>
+          <div class="stat-value">68</div>
+          <div class="stat-label">Available Rooms</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📍</div>
+          <div class="stat-value">7</div>
+          <div class="stat-label">Barangays</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-value">4.7</div>
+          <div class="stat-label">Avg. Rating</div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div>
+          <h3>Featured Boarding Houses</h3>
+          <p>Top-rated BHs across Pagadian City</p>
+        </div>
+        <button class="btn-accent" onclick="showPage('browse')">View All →</button>
+      </div>
+      <div class="bh-grid" id="featuredGrid"></div>
+    </div>
+
+    <!-- BROWSE PAGE -->
+    <div class="page" id="page-browse">
+      <div class="section-header">
+        <div>
+          <h3>Browse Boarding Houses</h3>
+          <p>All BHs in Pagadian City by Barangay</p>
+        </div>
+      </div>
+      <div class="barangay-filter">
+        <div class="bgy-chip active" onclick="filterBrgy('ALL', this)">All Barangays</div>
+        <div class="bgy-chip" onclick="filterBrgy('TIGUMA', this)">📍 Tiguma</div>
+        <div class="bgy-chip" onclick="filterBrgy('TUBURAN', this)">📍 Tuburan</div>
+        <div class="bgy-chip" onclick="filterBrgy('LUMBIA', this)">📍 Lumbia</div>
+        <div class="bgy-chip" onclick="filterBrgy('SAN JOSE', this)">📍 San Jose</div>
+        <div class="bgy-chip" onclick="filterBrgy('BALANGASAN', this)">📍 Balangasan</div>
+        <div class="bgy-chip" onclick="filterBrgy('STA. MARIA', this)">📍 Sta. Maria</div>
+        <div class="bgy-chip" onclick="filterBrgy('SAN FRANCISCO', this)">📍 San Francisco</div>
+      </div>
+      <div class="bh-grid" id="browseGrid"></div>
+    </div>
+
+    <!-- RESERVATIONS PAGE -->
+    <div class="page" id="page-reservations">
+      <div class="section-header">
+        <div>
+          <h3>My Reservations</h3>
+          <p>Track all your booking requests</p>
+        </div>
+      </div>
+      <div class="reservations-list" id="reservationsList">
+        <div style="text-align:center;padding:60px;color:var(--muted);">
+          <div style="font-size:48px;margin-bottom:12px;">📋</div>
+          <p>No reservations yet. Browse boarding houses to get started!</p>
+          <button class="btn-accent" style="margin-top:16px;" onclick="showPage('browse')">Browse BHs</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div class="page" id="page-profile">
+      <div class="profile-card">
+        <div class="profile-cover"></div>
+        <div class="profile-body">
+          <div class="profile-avatar" id="profileAvatar">J</div>
+          <div class="profile-name" id="profileName">Juan dela Cruz</div>
+          <div class="profile-email" id="profileEmail">juan@email.com</div>
+          <div class="profile-grid">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="pFname" placeholder="Juan">
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" id="pLname" placeholder="dela Cruz">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="pEmail" placeholder="juan@email.com">
+            </div>
+            <div class="form-group">
+              <label>Mobile</label>
+              <input type="tel" id="pPhone" placeholder="09XX XXX XXXX">
+            </div>
+          </div>
+          <button class="btn-primary" style="width:auto;padding:10px 28px;" onclick="saveProfile()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div class="page" id="page-about">
+      <div class="about-header">
+        <div style="font-size:48px;margin-bottom:12px;">🏘️</div>
+        <h2>BH Reserve Pagadian City</h2>
+        <p>Your trusted platform for finding and reserving boarding houses across all barangays of Pagadian City, Zamboanga del Sur.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="icon">🔍</div>
+          <h4>Easy Search</h4>
+          <p>Browse verified boarding houses by barangay, price range, and room type with ease.</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">📱</div>
+          <h4>Online Reservation</h4>
+          <p>Reserve your room online and submit all required information to the landlord/landlady.</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">✅</div>
+          <h4>Verified Listings</h4>
+          <p>All boarding houses are verified and reviewed by our team for your safety and peace of mind.</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">📍</div>
+          <h4>7 Barangays</h4>
+          <p>We cover Tiguma, Tuburan, Lumbia, San Jose, Balangasan, Sta. Maria, and San Francisco.</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">💰</div>
+          <h4>Affordable Options</h4>
+          <p>Find rooms starting from ₱1,500/month with various amenity inclusions.</p>
+        </div>
+        <div class="about-card">
+          <div class="icon">🤝</div>
+          <h4>Trusted Owners</h4>
+          <p>Connect directly with verified landlords and landladies in Pagadian City.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end main -->
+</div><!-- end app -->
+
+<!-- ========== ROOMS MODAL ========== -->
+<div class="modal-overlay hidden" id="roomsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h3 id="modalBHName">BH Name</h3>
+        <p id="modalBHInfo">Owner • Location</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('roomsModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="rooms-grid" id="roomsGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== RESERVATION FORM MODAL ========== -->
+<div class="modal-overlay hidden" id="reserveModal">
+  <div class="modal form-modal">
+    <div class="modal-header">
+      <div>
+        <h3>Reservation Form</h3>
+        <p>Fill in your information to reserve this room</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('reserveModal')">✕</button>
+    </div>
+    <div class="modal-body" id="reserveFormBody">
+      <!-- dynamically rendered -->
+    </div>
+  </div>
+</div>
+
+<!-- ========== SUCCESS MODAL ========== -->
+<div class="modal-overlay hidden" id="successModal">
+  <div class="modal form-modal">
+    <div class="modal-body">
+      <div class="success-screen">
+        <div class="success-icon">🎉</div>
+        <h3>Reservation Submitted!</h3>
+        <p>Your reservation request has been sent to the landlord/landlady. Please wait for their confirmation.</p>
+        <button class="btn-primary" style="width:auto;padding:12px 32px;" onclick="closeAllModals(); showPage('reservations')">View My Reservations</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== DATA ==========
+const bhouses = [
+  // TIGUMA
+  {
+    id: 1, name: "Casa Verde BH", barangay: "TIGUMA", owner: "Ma. Lourdes Tan",
+    imgClass: "bh-img-1", emoji: "🏡", tags: ["Near Market", "WiFi", "CCTV"],
+    minPrice: 1800, rooms: [
+      { no: "101", type: "Single", price: 1800, amenities: {water: true, electric: false, wifi: true, comfort: true}, status: "available" },
+      { no: "102", type: "For 2", price: 2800, amenities: {water: true, electric: false, wifi: true, comfort: true}, status: "available" },
+      { no: "103", type: "Single", price: 1800, amenities: {water: true, electric: false, wifi: false, comfort: true}, status: "occupied" },
+      { no: "104", type: "For 3", price: 3500, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+    ]
+  },
+  {
+    id: 2, name: "Tiguma Hometel", barangay: "TIGUMA", owner: "Ricardo Aba",
+    imgClass: "bh-img-2", emoji: "🏘️", tags: ["Near School", "Parking"],
+    minPrice: 1500, rooms: [
+      { no: "201", type: "Single", price: 1500, amenities: {water: false, electric: false, wifi: false, comfort: false}, status: "available" },
+      { no: "202", type: "For 2", price: 2500, amenities: {water: true, electric: false, wifi: false, comfort: true}, status: "available" },
+      { no: "203", type: "Single", price: 1500, amenities: {water: false, electric: false, wifi: false, comfort: false}, status: "occupied" },
+    ]
+  },
+  // TUBURAN
+  {
+    id: 3, name: "Green Valley BH", barangay: "TUBURAN", owner: "Rosario Capuno",
+    imgClass: "bh-img-3", emoji: "🌿", tags: ["Quiet Area", "With Kitchen", "Near Church"],
+    minPrice: 2000, rooms: [
+      { no: "A1", type: "Single", price: 2000, amenities: {water: true, electric: true, wifi: false, comfort: true}, status: "available" },
+      { no: "A2", type: "For 2", price: 3200, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+      { no: "A3", type: "For 2", price: 3200, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "occupied" },
+      { no: "A4", type: "Single", price: 2000, amenities: {water: true, electric: false, wifi: false, comfort: true}, status: "available" },
+    ]
+  },
+  {
+    id: 4, name: "Tuburan Suites", barangay: "TUBURAN", owner: "Edwin Galvez",
+    imgClass: "bh-img-4", emoji: "🏠", tags: ["Near Terminal", "24/7 Security"],
+    minPrice: 2200, rooms: [
+      { no: "T1", type: "Single", price: 2200, amenities: {water: true, electric: false, wifi: false, comfort: true}, status: "available" },
+      { no: "T2", type: "For 2", price: 3500, amenities: {water: true, electric: true, wifi: false, comfort: true}, status: "available" },
+      { no: "T3", type: "For 4", price: 5000, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+    ]
+  },
+  // LUMBIA
+  {
+    id: 5, name: "Lumbia Residences", barangay: "LUMBIA", owner: "Carmela Reyes",
+    imgClass: "bh-img-5", emoji: "🏡", tags: ["WiFi", "Clean", "With Laundry Area"],
+    minPrice: 1700, rooms: [
+      { no: "L1", type: "Single", price: 1700, amenities: {water: true, electric: false, wifi: true, comfort: false}, status: "available" },
+      { no: "L2", type: "For 2", price: 2800, amenities: {water: true, electric: false, wifi: true, comfort: true}, status: "available" },
+      { no: "L3", type: "Single", price: 1700, amenities: {water: true, electric: false, wifi: true, comfort: false}, status: "occupied" },
+    ]
+  },
+  // SAN JOSE
+  {
+    id: 6, name: "San Jose BH", barangay: "SAN JOSE", owner: "Natividad Cruz",
+    imgClass: "bh-img-6", emoji: "🏘️", tags: ["Near Hospital", "WiFi", "Parking"],
+    minPrice: 2500, rooms: [
+      { no: "SJ1", type: "Single", price: 2500, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+      { no: "SJ2", type: "For 2", price: 4000, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+      { no: "SJ3", type: "For 3", price: 5500, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+      { no: "SJ4", type: "Single", price: 2500, amenities: {water: true, electric: true, wifi: false, comfort: true}, status: "occupied" },
+    ]
+  },
+  {
+    id: 7, name: "Mañana BH", barangay: "SAN JOSE", owner: "Prospero Aliño",
+    imgClass: "bh-img-7", emoji: "🌅", tags: ["Affordable", "Near Market"],
+    minPrice: 1600, rooms: [
+      { no: "M1", type: "Single", price: 1600, amenities: {water: false, electric: false, wifi: false, comfort: false}, status: "available" },
+      { no: "M2", type: "For 2", price: 2600, amenities: {water: true, electric: false, wifi: false, comfort: true}, status: "available" },
+    ]
+  },
+  // BALANGASAN
+  {
+    id: 8, name: "Balangasan BH", barangay: "BALANGASAN", owner: "Elvira Lim",
+    imgClass: "bh-img-8", emoji: "🏠", tags: ["Near Pagadian City College", "WiFi", "CCTV"],
+    minPrice: 1900, rooms: [
+      { no: "B1", type: "Single", price: 1900, amenities: {water: true, electric: false, wifi: true, comfort: true}, status: "available" },
+      { no: "B2", type: "For 2", price: 3200, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+      { no: "B3", type: "Single", price: 1900, amenities: {water: true, electric: false, wifi: true, comfort: false}, status: "available" },
+      { no: "B4", type: "For 3", price: 4200, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "occupied" },
+    ]
+  },
+  {
+    id: 9, name: "Tranquil Suites", barangay: "BALANGASAN", owner: "Gerry Montaño",
+    imgClass: "bh-img-9", emoji: "🌙", tags: ["Peaceful", "Near Zigzag", "Kitchen Use"],
+    minPrice: 2100, rooms: [
+      { no: "TS1", type: "Single", price: 2100, amenities: {water: true, electric: true, wifi: false, comfort: true}, status: "available" },
+      { no: "TS2", type: "For 2", price: 3500, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+    ]
+  },
+  // STA. MARIA
+  {
+    id: 10, name: "Sta. Maria BH", barangay: "STA. MARIA", owner: "Ligaya Santos",
+    imgClass: "bh-img-10", emoji: "🌺", tags: ["Family-Friendly", "With Garden", "Safe Area"],
+    minPrice: 2000, rooms: [
+      { no: "SM1", type: "Single", price: 2000, amenities: {water: true, electric: false, wifi: false, comfort: true}, status: "available" },
+      { no: "SM2", type: "For 2", price: 3300, amenities: {water: true, electric: false, wifi: true, comfort: true}, status: "available" },
+      { no: "SM3", type: "For 4", price: 5500, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+    ]
+  },
+  // SAN FRANCISCO
+  {
+    id: 11, name: "Pacific BH", barangay: "SAN FRANCISCO", owner: "Melanie Valdez",
+    imgClass: "bh-img-11", emoji: "🌊", tags: ["Near Coast", "WiFi", "Parking"],
+    minPrice: 2300, rooms: [
+      { no: "P1", type: "Single", price: 2300, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+      { no: "P2", type: "For 2", price: 3800, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "occupied" },
+      { no: "P3", type: "Single", price: 2300, amenities: {water: true, electric: false, wifi: true, comfort: true}, status: "available" },
+    ]
+  },
+  {
+    id: 12, name: "San Francisco Hometel", barangay: "SAN FRANCISCO", owner: "Domingo Fuentes",
+    imgClass: "bh-img-12", emoji: "🏡", tags: ["Budget-Friendly", "Near Market", "Clean"],
+    minPrice: 1600, rooms: [
+      { no: "SF1", type: "Single", price: 1600, amenities: {water: false, electric: false, wifi: false, comfort: true}, status: "available" },
+      { no: "SF2", type: "For 2", price: 2800, amenities: {water: true, electric: false, wifi: false, comfort: true}, status: "available" },
+      { no: "SF3", type: "For 3", price: 4000, amenities: {water: true, electric: true, wifi: true, comfort: true}, status: "available" },
+    ]
+  },
+];
+
+let currentUser = null;
+let myReservations = [];
+let currentBH = null;
+let currentRoom = null;
+let currentFilter = 'ALL';
+
+// ========== AUTH ==========
+function switchTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
+  document.getElementById('registerForm').classList.toggle('hidden', tab !== 'register');
+}
+
+function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPassword').value;
+  if (!email || !pass) { alert('Please fill in all fields.'); return; }
+  const parts = email.split('@')[0].split('.');
+  currentUser = {
+    fname: parts[0] ? parts[0].charAt(0).toUpperCase() + parts[0].slice(1) : 'User',
+    lname: parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '',
+    email: email,
+    phone: ''
+  };
+  launchApp();
+}
+
+function handleRegister() {
+  const fname = document.getElementById('regFname').value.trim();
+  const lname = document.getElementById('regLname').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const pass = document.getElementById('regPassword').value;
+  if (!fname || !lname || !email || !phone || !pass) { alert('Please fill in all fields.'); return; }
+  currentUser = { fname, lname, email, phone };
+  launchApp();
+}
+
+function launchApp() {
+  document.getElementById('authScreen').classList.add('hidden');
+  document.getElementById('mainApp').classList.remove('hidden');
+  const initial = currentUser.fname.charAt(0).toUpperCase();
+  document.getElementById('sidebarAvatar').textContent = initial;
+  document.getElementById('sidebarName').textContent = `${currentUser.fname} ${currentUser.lname}`;
+  document.getElementById('sidebarEmail').textContent = currentUser.email;
+  document.getElementById('profileAvatar').textContent = initial;
+  document.getElementById('profileName').textContent = `${currentUser.fname} ${currentUser.lname}`;
+  document.getElementById('profileEmail').textContent = currentUser.email;
+  document.getElementById('pFname').value = currentUser.fname;
+  document.getElementById('pLname').value = currentUser.lname;
+  document.getElementById('pEmail').value = currentUser.email;
+  document.getElementById('pPhone').value = currentUser.phone;
+  renderFeatured();
+  renderBrowse();
+}
+
+function handleLogout() {
+  currentUser = null;
+  document.getElementById('mainApp').classList.add('hidden');
+  document.getElementById('authScreen').classList.remove('hidden');
+}
+
+// ========== NAVIGATION ==========
+const pageTitles = {
+  home: 'Home', browse: 'Browse Boarding Houses',
+  reservations: 'My Reservations', profile: 'My Profile', about: 'About'
+};
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('pageTitle').textContent = pageTitles[id] || id;
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+}
+
+// ========== RENDER BH CARD ==========
+function renderBHCard(bh) {
+  const avail = bh.rooms.filter(r => r.status === 'available').length;
+  return `
+    <div class="bh-card">
+      <div class="bh-img ${bh.imgClass}">
+        <span style="font-size:60px;">${bh.emoji}</span>
+        <div class="bh-badge">${bh.barangay}</div>
+        <div class="bh-available">${avail} Available</div>
+      </div>
+      <div class="bh-body">
+        <div class="bh-name">${bh.name}</div>
+        <div class="bh-location">📍 ${bh.barangay}, Pagadian City</div>
+        <div class="bh-owner">Owner: <span>${bh.owner}</span></div>
+        <div class="bh-tags">
+          ${bh.tags.map(t => `<span class="bh-tag">${t}</span>`).join('')}
+        </div>
+        <div class="bh-footer">
+          <div class="bh-price">₱${bh.minPrice.toLocaleString()} <span>/ month starts</span></div>
+          <button class="btn-visit" onclick="openRooms(${bh.id})">🚪 Visit</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderFeatured() {
+  const featured = bhouses.slice(0, 6);
+  document.getElementById('featuredGrid').innerHTML = featured.map(renderBHCard).join('');
+}
+
+function renderBrowse(filter = 'ALL') {
+  const filtered = filter === 'ALL' ? bhouses : bhouses.filter(b => b.barangay === filter);
+  document.getElementById('browseGrid').innerHTML = filtered.length
+    ? filtered.map(renderBHCard).join('')
+    : '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px;">No boarding houses found in this barangay.</p>';
+}
+
+function filterBrgy(barangay, el) {
+  currentFilter = barangay;
+  if (el) {
+    document.querySelectorAll('.bgy-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+  renderBrowse(barangay);
+}
+
+function handleSearch(val) {
+  const q = val.toLowerCase();
+  const filtered = bhouses.filter(b =>
+    b.name.toLowerCase().includes(q) ||
+    b.barangay.toLowerCase().includes(q) ||
+    b.owner.toLowerCase().includes(q)
+  );
+  document.getElementById('browseGrid').innerHTML = filtered.map(renderBHCard).join('');
+  showPage('browse');
+}
+
+// ========== ROOMS MODAL ==========
+function openRooms(id) {
+  const bh = bhouses.find(b => b.id === id);
+  currentBH = bh;
+  document.getElementById('modalBHName').textContent = bh.name;
+  document.getElementById('modalBHInfo').textContent = `Owner: ${bh.owner} • ${bh.barangay}, Pagadian City`;
+  document.getElementById('roomsGrid').innerHTML = bh.rooms.map(r => `
+    <div class="room-card ${r.status === 'occupied' ? 'occupied' : ''}">
+      <div class="room-number">Room ${r.no}</div>
+      <div class="room-type">🛏️ ${r.type}</div>
+      <div class="room-amenities">
+        <div class="amenity"><span class="dot ${r.amenities.water ? '' : 'x'}"></span> Water ${r.amenities.water ? '(Free)' : '(Paid)'}</div>
+        <div class="amenity"><span class="dot ${r.amenities.electric ? '' : 'x'}"></span> Electricity ${r.amenities.electric ? '(Free)' : '(Paid)'}</div>
+        <div class="amenity"><span class="dot ${r.amenities.wifi ? '' : 'x'}"></span> WiFi ${r.amenities.wifi ? '(Included)' : '(Not Included)'}</div>
+        <div class="amenity"><span class="dot ${r.amenities.comfort ? '' : 'x'}"></span> CR ${r.amenities.comfort ? '(Private)' : '(Shared)'}</div>
+      </div>
+      <div class="room-price">₱${r.price.toLocaleString()} <span>/ month</span></div>
+      <div class="room-status ${r.status}">${r.status === 'available' ? '✅ Available' : '❌ Occupied'}</div>
+      <button class="btn-reserve" ${r.status === 'occupied' ? 'disabled' : ''} onclick="openReserveForm('${r.no}')">
+        ${r.status === 'available' ? 'Reserve Room' : 'Occupied'}
+      </button>
+    </div>`).join('');
+  document.getElementById('roomsModal').classList.remove('hidden');
+}
+
+// ========== RESERVATION FORM ==========
+function openReserveForm(roomNo) {
+  const room = currentBH.rooms.find(r => r.no === roomNo);
+  currentRoom = room;
+  document.getElementById('reserveFormBody').innerHTML = `
+    <div class="reservation-summary">
+      <div class="res-sum-row"><span class="label">Boarding House</span><span class="value">${currentBH.name}</span></div>
+      <div class="res-sum-row"><span class="label">Room Number</span><span class="value">Room ${room.no}</span></div>
+      <div class="res-sum-row"><span class="label">Type</span><span class="value">${room.type}</span></div>
+      <div class="res-sum-row"><span class="label">Monthly Rent</span><span class="value">₱${room.price.toLocaleString()}</span></div>
+      <div class="res-sum-row"><span class="label">Landlord/Lady</span><span class="value">${currentBH.owner}</span></div>
+    </div>
+
+    <div class="form-section-title">👤 Personal Information</div>
+    <div class="form-row">
+      <div class="form-group"><label>First Name *</label><input type="text" id="rf_fname" value="${currentUser.fname}" placeholder="Juan"></div>
+      <div class="form-group"><label>Last Name *</label><input type="text" id="rf_lname" value="${currentUser.lname}" placeholder="dela Cruz"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Date of Birth *</label><input type="date" id="rf_bdate"></div>
+      <div class="form-group"><label>Gender *</label>
+        <select id="rf_gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Mobile Number *</label><input type="tel" id="rf_phone" value="${currentUser.phone}" placeholder="09XX XXX XXXX"></div>
+      <div class="form-group"><label>Email Address *</label><input type="email" id="rf_email" value="${currentUser.email}" placeholder="juan@email.com"></div>
+    </div>
+
+    <div class="form-section-title">🏠 Permanent Address</div>
+    <div class="form-group"><label>Complete Address *</label><input type="text" id="rf_address" placeholder="House No., Street, Barangay, City/Municipality"></div>
+
+    <div class="form-section-title">🎓 Student/Work Information</div>
+    <div class="form-row">
+      <div class="form-group"><label>Occupation</label>
+        <select id="rf_occupation"><option value="">Select</option><option>Student</option><option>Employed</option><option>Self-employed</option><option>Other</option></select>
+      </div>
+      <div class="form-group"><label>School / Company</label><input type="text" id="rf_school" placeholder="e.g. Pagadian City College"></div>
+    </div>
+
+    <div class="form-section-title">🆘 Emergency Contact</div>
+    <div class="form-row">
+      <div class="form-group"><label>Contact Person *</label><input type="text" id="rf_emname" placeholder="Parent / Guardian Name"></div>
+      <div class="form-group"><label>Relationship</label><input type="text" id="rf_emrel" placeholder="e.g. Mother"></div>
+    </div>
+    <div class="form-group"><label>Emergency Contact Number *</label><input type="tel" id="rf_emphone" placeholder="09XX XXX XXXX"></div>
+
+    <div class="form-section-title">📅 Move-in Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Preferred Move-in Date *</label><input type="date" id="rf_movein"></div>
+      <div class="form-group"><label>Duration of Stay</label>
+        <select id="rf_duration"><option>1 Month</option><option>3 Months</option><option>6 Months</option><option>1 Year</option><option>Indefinite</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>Additional Notes</label><textarea id="rf_notes" rows="3" style="resize:vertical;" placeholder="Any special requests or notes to the landlord/landlady..."></textarea></div>
+
+    <button class="btn-primary" style="margin-top:8px;" onclick="submitReservation()">📩 Submit Reservation</button>
+  `;
+  document.getElementById('reserveModal').classList.remove('hidden');
+}
+
+function submitReservation() {
+  const fname = document.getElementById('rf_fname').value.trim();
+  const lname = document.getElementById('rf_lname').value.trim();
+  const phone = document.getElementById('rf_phone').value.trim();
+  const address = document.getElementById('rf_address').value.trim();
+  const emname = document.getElementById('rf_emname').value.trim();
+  const emphone = document.getElementById('rf_emphone').value.trim();
+  const movein = document.getElementById('rf_movein').value;
+  if (!fname || !lname || !phone || !address || !emname || !emphone || !movein) {
+    alert('Please fill in all required (*) fields.');
+    return;
+  }
+  myReservations.push({
+    bh: currentBH.name,
+    room: currentRoom.no,
+    type: currentRoom.type,
+    price: currentRoom.price,
+    owner: currentBH.owner,
+    barangay: currentBH.barangay,
+    movein: movein,
+    status: 'pending',
+    date: new Date().toLocaleDateString('en-PH')
+  });
+  renderReservations();
+  closeModal('reserveModal');
+  document.getElementById('successModal').classList.remove('hidden');
+}
+
+function renderReservations() {
+  const el = document.getElementById('reservationsList');
+  if (!myReservations.length) {
+    el.innerHTML = `<div style="text-align:center;padding:60px;color:var(--muted);"><div style="font-size:48px;margin-bottom:12px;">📋</div><p>No reservations yet.</p><button class="btn-accent" style="margin-top:16px;" onclick="showPage('browse')">Browse BHs</button></div>`;
+    return;
+  }
+  el.innerHTML = myReservations.map((r, i) => `
+    <div class="reservation-item">
+      <div class="res-icon">🏠</div>
+      <div class="res-info">
+        <h4>${r.bh} — Room ${r.room}</h4>
+        <p>${r.type} • ${r.barangay}, Pagadian City • Owner: ${r.owner}</p>
+        <div class="res-tags">
+          <span class="res-tag ${r.status}">${r.status.charAt(0).toUpperCase() + r.status.slice(1)}</span>
+          <span class="res-tag" style="background:var(--bg);color:var(--muted);">Move-in: ${r.movein}</span>
+          <span class="res-tag" style="background:var(--bg);color:var(--muted);">Submitted: ${r.date}</span>
+        </div>
+      </div>
+      <div class="res-price">
+        <div class="amount">₱${r.price.toLocaleString()}</div>
+        <div class="per">/ month</div>
+      </div>
+    </div>`).join('');
+}
+
+// ========== MODALS ==========
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+function closeAllModals() {
+  ['roomsModal','reserveModal','successModal'].forEach(m => document.getElementById(m).classList.add('hidden'));
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) closeAllModals();
+  });
+});
+
+// ========== PROFILE ==========
+function saveProfile() {
+  currentUser.fname = document.getElementById('pFname').value.trim();
+  currentUser.lname = document.getElementById('pLname').value.trim();
+  currentUser.email = document.getElementById('pEmail').value.trim();
+  currentUser.phone = document.getElementById('pPhone').value.trim();
+  document.getElementById('sidebarName').textContent = `${currentUser.fname} ${currentUser.lname}`;
+  document.getElementById('sidebarEmail').textContent = currentUser.email;
+  document.getElementById('profileName').textContent = `${currentUser.fname} ${currentUser.lname}`;
+  document.getElementById('profileEmail').textContent = currentUser.email;
+  const initial = currentUser.fname.charAt(0).toUpperCase();
+  document.getElementById('sidebarAvatar').textContent = initial;
+  document.getElementById('profileAvatar').textContent = initial;
+  alert('Profile saved successfully!');
+}
+</script>
+</body>
+</html>
